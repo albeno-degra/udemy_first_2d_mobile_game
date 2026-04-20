@@ -12,25 +12,12 @@ run:
 
 # Build release versions
 build:
-	fvm flutter build apk --release
 	fvm flutter build ios --release
 
 # Remove build and cache folders
 clean:
 	fvm flutter clean
 	fvm flutter pub get
-
-# Run analyzer with lint rules
-analyze:
-	fvm flutter analyze
-
-# Format all Dart files
-format:
-	fvm dart format lib test
-
-# Run tests
-test:
-	fvm flutter test --coverage
 
 # Generate code (for build_runner)
 gen:
