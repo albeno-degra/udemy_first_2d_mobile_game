@@ -1,0 +1,14 @@
+{
+  "dart.lineLength": 80,
+  "[dart]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
+    },
+    "editor.formatOnSave": true,
+    "editor.rulers": [
+      80
+    ]
+  },
+  "dart.flutterSdkPath": ".fvm/versions/3.41.6"
+}
