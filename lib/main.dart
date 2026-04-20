@@ -5,8 +5,8 @@ import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'components/bullet.dart';
-import 'components/joystick_player.dart';
+import 'main_components/bullet.dart';
+import 'main_components/joystick_player.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
