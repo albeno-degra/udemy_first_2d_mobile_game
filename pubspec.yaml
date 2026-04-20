@@ -6,3 +6,4 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  very_good_analysis: ^10.2.0
