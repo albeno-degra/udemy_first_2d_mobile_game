@@ -1,12 +1,14 @@
 import 'package:first_2d_mobile_game/asteroids/bullet.dart';
 import 'package:first_2d_mobile_game/asteroids/joystick_player.dart';
+import 'package:first_2d_mobile_game/shared/mixins/fps_tracker.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
-class AsteroidsGame extends FlameGame with TapCallbacks, DragCallbacks {
+class AsteroidsGame extends FlameGame
+    with TapCallbacks, DragCallbacks, FpsTracker {
   //
   // The player being controlled by Joystick
   late final JoystickPlayer player;

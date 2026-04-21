@@ -1,3 +1,4 @@
+import 'package:first_2d_mobile_game/shared/mixins/fps_tracker.dart';
 import 'package:first_2d_mobile_game/squares/square.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 //
 //
 // The game class
-class SquaresGame extends FlameGame with DoubleTapDetector, TapCallbacks {
+class SquaresGame extends FlameGame
+    with DoubleTapDetector, TapCallbacks, FpsTracker {
   bool running = true;
 
   @override
