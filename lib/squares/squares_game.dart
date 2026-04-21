@@ -1,24 +1,13 @@
-import 'package:first_2d_mobile_game/main_01_compomemts/square.dart';
+import 'package:first_2d_mobile_game/squares/square.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame/input.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  final ComponentExample001 myGame = ComponentExample001();
-  runApp(
-    GameWidget(
-      game: myGame,
-    ),
-  );
-}
 
 //
 //
 // The game class
-class ComponentExample001 extends FlameGame
-    with DoubleTapDetector, TapCallbacks {
+class SquaresGame extends FlameGame with DoubleTapDetector, TapCallbacks {
   bool running = true;
 
   @override

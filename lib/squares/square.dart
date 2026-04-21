@@ -1,11 +1,11 @@
-//
-//
-// Simple component shape example of a square component
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/material.dart';
 
+//
+//
+// Simple component shape example of a square component
 class Square extends PositionComponent with TapCallbacks {
   //
   // default values
