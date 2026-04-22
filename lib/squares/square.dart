@@ -1,3 +1,4 @@
+import 'package:first_2d_mobile_game/shared/mixins/rotation.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/palette.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 //
 //
 // Simple component shape example of a square component
-class Square extends PositionComponent with TapCallbacks {
+class Square extends PositionComponent with TapCallbacks, Rotation {
   //
   // default values
   //
@@ -26,7 +27,7 @@ class Square extends PositionComponent with TapCallbacks {
   Future<void> onLoad() async {
     super.onLoad();
     size.setValues(squareSize, squareSize);
-    anchor = Anchor.topRight;
+    anchor = Anchor.center;
   }
 
   @override
@@ -37,6 +38,7 @@ class Square extends PositionComponent with TapCallbacks {
     super.update(dt);
     // speed is refresh frequency independent
     position += velocity * dt;
+    rotate(dt, invertDirectionOnLimit: true);
   }
 
   @override

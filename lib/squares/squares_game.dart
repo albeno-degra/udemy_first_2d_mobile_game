@@ -10,12 +10,39 @@ import 'package:flutter/material.dart';
 // The game class
 class SquaresGame extends FlameGame
     with DoubleTapDetector, TapCallbacks, FpsTracker {
+  ///
+  /// controls of engine running state
   bool running = true;
 
+  ///
+  /// if debug mode is on, the game will render additional information such as fps and component boundaries
   @override
-  //
-  //
-  // Process user's single tap (tap up)
+  bool debugMode = true;
+
+  ///
+  /// text rendering const
+  final TextPaint textPaint = TextPaint(
+    style: const TextStyle(
+      fontSize: 14.0,
+      fontFamily: 'Awesome Font',
+    ),
+  );
+
+  @override
+  void render(Canvas canvas) {
+    // first 4 children are: FPSComponent,
+    // MultiTapDispatcher, CameraComponent, World;
+    textPaint.render(
+      canvas,
+      'objects active: ${children.length}',
+      Vector2(20, 60),
+    );
+    super.render(canvas);
+  }
+
+  @override
+
+  /// process user's single tap (tap up)
   void onTapUp(TapUpEvent info) {
     // location of user's tap
     final touchPoint = info.localPosition;
@@ -32,6 +59,8 @@ class SquaresGame extends FlameGame
   }
 
   @override
+
+  /// process user's double tap
   void onDoubleTap() {
     if (running) {
       pauseEngine();
