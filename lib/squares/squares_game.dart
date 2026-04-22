@@ -17,7 +17,7 @@ class SquaresGame extends FlameGame
   ///
   /// if debug mode is on, the game will render additional information such as fps and component boundaries
   @override
-  bool debugMode = true;
+  bool debugMode = false;
 
   ///
   /// text rendering const
@@ -50,7 +50,7 @@ class SquaresGame extends FlameGame
     add(
       Square()
         ..position = touchPoint
-        ..squareSize = 45.0
+        ..squareSize = const Size.square(45.0)
         ..velocity = Vector2(0, 1).normalized() * 50
         ..color = (BasicPalette.red.paint()
           ..style = PaintingStyle.stroke
