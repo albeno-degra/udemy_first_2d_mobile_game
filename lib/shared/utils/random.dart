@@ -17,5 +17,7 @@ Vector2 getRandomVelocity({
 }) {
   final random = randomEntity ?? Random();
   final speed = minSpeed + random.nextDouble() * (maxSpeed - minSpeed);
-  return Vector2(random.nextDouble(), random.nextDouble()).normalized() * speed;
+  return Vector2(random.nextDouble() * 2 - 1, random.nextDouble() * 2 - 1)
+          .normalized() *
+      speed;
 }

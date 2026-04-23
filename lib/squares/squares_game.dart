@@ -26,8 +26,23 @@ class SquaresGame extends FlameGame
   // bounds of the game world, used for random position generation
   late final Rect bounds;
 
-  static const padding = 100.0;
+  late final List<Rect> boundsOuterSpaces = [
+    // top
+    Rect.fromLTWH(0, 0, size.x, padding),
+    // bottom
+    Rect.fromLTWH(0, size.y - padding, size.x, padding),
+    // left
+    Rect.fromLTWH(0, 0, padding, size.y),
+    // right
+    Rect.fromLTWH(size.x - padding, 0, padding, size.y),
+  ];
 
+  final squareSize = const Size.square(45.0);
+
+  // outer space padding around the game world
+  static const padding = 25.0;
+
+  // random generator instance for the game
   final Random random = Random();
 
   ///
@@ -42,8 +57,12 @@ class SquaresGame extends FlameGame
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    bounds =
-        Rect.fromLTWH(padding, padding, size.x - padding, size.y - padding);
+    bounds = Rect.fromLTWH(
+      padding,
+      padding,
+      size.x - padding * 2,
+      size.y - padding * 2,
+    );
   }
 
   @override
@@ -56,16 +75,43 @@ class SquaresGame extends FlameGame
       Vector2(20, 60),
     );
     super.render(canvas);
+
+    // render the outer spaces of the game world with a dark gray color
+    renderOuterSpaces(canvas);
   }
 
   @override
+  void update(double dt) {
+    super.update(dt);
+    for (final child in children) {
+      if (child is Square) {
+        final deflate = child.velocity.angleTo(Vector2.zero()) > pi / 2
+            ? squareSize.width / 2
+            : -squareSize.width / 2;
+        // if the square goes out of bounds, remove it from the game
+        if (!(bounds.deflate(deflate)).contains(child.position.toOffset())) {
+          child.removeFromParent();
+        }
+      }
+    }
+  }
 
-  /// process user's single tap (tap up)
+  void renderOuterSpaces(Canvas canvas) {
+    for (final rect in boundsOuterSpaces) {
+      canvas.drawRect(
+        rect,
+        BasicPalette.darkGray.paint()..style = PaintingStyle.fill,
+      );
+    }
+  }
+
+  @override
+  // process user's single tap (tap up)
   void onTapUp(TapUpEvent info) {
     add(
       Square()
         ..position = getRandomPosition(bounds: bounds, randomEntity: random)
-        ..squareSize = const Size.square(45.0)
+        ..squareSize = squareSize
         ..velocity = getRandomVelocity(randomEntity: random)
         ..color = (BasicPalette.red.paint()
           ..style = PaintingStyle.stroke
