@@ -40,7 +40,7 @@ class SquaresGame extends FlameGame
   final squareSize = const Size.square(45.0);
 
   // outer space padding around the game world
-  static const padding = 25.0;
+  static const padding = 20.0;
 
   // random generator instance for the game
   final Random random = Random();
