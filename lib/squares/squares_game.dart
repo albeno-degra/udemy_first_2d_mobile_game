@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:first_2d_mobile_game/shared/mixins/fps_tracker.dart';
+import 'package:first_2d_mobile_game/shared/utils/random.dart';
 import 'package:first_2d_mobile_game/squares/square.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
@@ -19,6 +22,14 @@ class SquaresGame extends FlameGame
   @override
   bool debugMode = false;
 
+  //
+  // bounds of the game world, used for random position generation
+  late final Rect bounds;
+
+  static const padding = 100.0;
+
+  final Random random = Random();
+
   ///
   /// text rendering const
   final TextPaint textPaint = TextPaint(
@@ -27,6 +38,13 @@ class SquaresGame extends FlameGame
       fontFamily: 'Awesome Font',
     ),
   );
+
+  @override
+  Future<void> onLoad() async {
+    await super.onLoad();
+    bounds =
+        Rect.fromLTWH(padding, padding, size.x - padding, size.y - padding);
+  }
 
   @override
   void render(Canvas canvas) {
@@ -44,14 +62,11 @@ class SquaresGame extends FlameGame
 
   /// process user's single tap (tap up)
   void onTapUp(TapUpEvent info) {
-    // location of user's tap
-    final touchPoint = info.localPosition;
-
     add(
       Square()
-        ..position = touchPoint
+        ..position = getRandomPosition(bounds: bounds, randomEntity: random)
         ..squareSize = const Size.square(45.0)
-        ..velocity = Vector2(0, 1).normalized() * 50
+        ..velocity = getRandomVelocity(randomEntity: random)
         ..color = (BasicPalette.red.paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2),

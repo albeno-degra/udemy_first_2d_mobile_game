@@ -32,7 +32,10 @@ mixin Rotation on PositionComponent {
         : (angle - angleDelta) % (2 * pi);
 
     // if the angle exceeds the limit, invert the rotation direction
-    if (invertDirectionOnLimit && (angle < 0 || angle > angleLimit)) {
+    if (invertDirectionOnLimit &&
+        ((rotationDirection == RotationDirection.clockwise && angle < 0) ||
+            (rotationDirection == RotationDirection.counterClockwise &&
+                angle > angleLimit))) {
       rotationDirection = rotationDirection.inverted;
     }
   }

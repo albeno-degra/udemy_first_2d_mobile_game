@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:first_2d_mobile_game/shared/mixins/rotation.dart';
 import 'package:first_2d_mobile_game/squares/health_bar.dart';
 import 'package:flame/components.dart';
@@ -35,6 +37,13 @@ class Square extends PositionComponent with TapCallbacks, Rotation {
     // set the anchor to the center of the square
     anchor = Anchor.center;
 
+    // assign random rotation speed and direction
+    final random = Random();
+    rotationSpeed = random.nextDouble() * 2 + 0.5;
+    rotationDirection = random.nextBool()
+        ? RotationDirection.clockwise
+        : RotationDirection.counterClockwise;
+
     // add the health bar as a child of the square
     add(
       healthBar
@@ -52,6 +61,7 @@ class Square extends PositionComponent with TapCallbacks, Rotation {
     // speed is refresh frequency independent
     position += velocity * dt;
     rotate(dt, invertDirectionOnLimit: true);
+
     healthBar.health -= 10 * dt;
     if (healthBar.health <= 0) {
       removeFromParent();
