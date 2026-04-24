@@ -1,27 +1,25 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 
-//
-//
-// Bullet class is a PositionComponent so we get the angle and position of the
-// element.
-class Bullet extends PositionComponent {
-  // color of the bullet
+class Bullet extends PositionComponent
+    with HasGameReference, CollisionCallbacks {
+  /// Bullet's paint
   static final _paint = Paint()..color = Colors.white;
-  // the bullet speed in pixles per second
+  // The bullet speed in pixles per second
   final double _speed = 150;
-  // velocity vector for the bullet.
+  // Velocity vector for the bullet.
   late Vector2 _velocity;
 
   //
   // default constructor with default values
   Bullet(Vector2 position, Vector2 velocity)
-      : _velocity = velocity,
-        super(
-          position: position,
-          size: Vector2.all(4), // 2x2 bullet
-          anchor: Anchor.center,
-        );
+    : _velocity = velocity,
+      super(
+        position: position,
+        size: Vector2.all(4), // 2x2 bullet
+        anchor: Anchor.center,
+      );
 
   @override
   Future<void> onLoad() async {
@@ -29,6 +27,7 @@ class Bullet extends PositionComponent {
     // _velocity is a unit vector so we need to make it account for the actual
     // speed.
     _velocity = (_velocity)..scaleTo(_speed);
+    add(RectangleHitbox()..collisionType = CollisionType.passive);
   }
 
   @override

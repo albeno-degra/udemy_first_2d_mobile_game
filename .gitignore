@@ -47,3 +47,4 @@ app.*.map.json
 
 # Hidden materials, your challenge ;-)
 lib/shared/utils/color_from_gradient.dart
+lib/shared/mixins/scene_changer.dart
