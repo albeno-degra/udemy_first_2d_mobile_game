@@ -6,6 +6,7 @@ import 'package:first_2d_mobile_game/gen/assets.gen.dart';
 import 'package:first_2d_mobile_game/utils/angles_utils.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class ShipPlayer extends SpriteComponent
         ..position.setValues(0, 0),
     );
     add(
-      RectangleHitbox()
+      CircleHitbox()
         ..collisionType = CollisionType.passive
         ..size = size / 2,
     );
@@ -78,6 +79,18 @@ class ShipPlayer extends SpriteComponent
     if (other is Asteroid && other.isVisible) {
       _healthBar.decrease(5);
       FlameAudio.play(Assets.audio.missileShot);
+      final otherVelocity = other.velocityBase * 20;
+      final effect = CombinedEffect([
+        MoveEffect.by(otherVelocity, EffectController(duration: 0.05)),
+        ColorEffect(
+          const Color.fromARGB(255, 235, 44, 30),
+          EffectController(duration: 0.2),
+          opacityFrom: 0.5,
+          opacityTo: 0,
+        ),
+        MoveEffect.by(-otherVelocity, EffectController(duration: 0.1)),
+      ]);
+      add(effect);
     }
   }
 

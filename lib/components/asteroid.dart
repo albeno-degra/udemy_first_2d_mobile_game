@@ -1,11 +1,13 @@
 import 'package:first_2d_mobile_game/asteroids_game.dart';
 import 'package:first_2d_mobile_game/components/bullet.dart';
+import 'package:first_2d_mobile_game/components/ship_player.dart';
 import 'package:first_2d_mobile_game/gen/assets.gen.dart';
 import 'package:first_2d_mobile_game/mixins/rotation.dart';
 import 'package:first_2d_mobile_game/utils/angles_utils.dart';
 import 'package:first_2d_mobile_game/utils/random.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
@@ -64,6 +66,8 @@ class Asteroid extends PolygonComponent
 
   /// Asteroid's _velocity
   late Vector2 _velocity;
+
+  Vector2 get velocityBase => _velocity.normalized();
 
   /// Cracked asteroid position
   final Vector2? _parentPosition;
@@ -146,6 +150,9 @@ class Asteroid extends PolygonComponent
           removeFromParent();
           break;
       }
+    } else if (other is ShipPlayer) {
+      add(MoveEffect.by(-velocityBase * 5, EffectController(duration: 0.05)));
+      _velocity = -_velocity;
     }
   }
 
