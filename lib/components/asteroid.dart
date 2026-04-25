@@ -28,21 +28,21 @@ enum AsteroidSize {
     switch (this) {
       case AsteroidSize.large:
         return const AsteroidParams(
-          minRadius: 40,
+          minRadius: 25,
           maxRadius: 60,
           vertexCount: 10,
         );
       case AsteroidSize.medium:
         return const AsteroidParams(
-          minRadius: 20,
-          maxRadius: 30,
-          vertexCount: 14,
+          minRadius: 15,
+          maxRadius: 40,
+          vertexCount: 12,
         );
       case AsteroidSize.small:
         return const AsteroidParams(
-          minRadius: 10,
+          minRadius: 5,
           maxRadius: 15,
-          vertexCount: 18,
+          vertexCount: 8,
         );
     }
   }
