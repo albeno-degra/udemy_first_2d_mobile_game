@@ -24,7 +24,6 @@ class AsteroidsGame extends FlameGame
   late final Rect bounds = Rect.fromLTWH(0, 0, size.x, size.y);
 
   // Game's timers
-  late final Timer _asteroidTimer;
   Timer? _bulletTimer;
   Timer? _playerMoveTimer;
 
@@ -51,16 +50,13 @@ class AsteroidsGame extends FlameGame
     add(ScreenHitbox());
     toRunningScene();
     add(player);
-
-    _asteroidTimer = Timer(2, onTick: _addRandomAsteroid, repeat: true)
-      ..start();
+    add(TimerComponent(period: 2, onTick: _addRandomAsteroid, repeat: true));
   }
 
   @override
   void update(double dt) {
     super.update(dt);
     // Update timers by `dt`
-    _asteroidTimer.update(dt);
     _bulletTimer?.update(dt);
     _playerMoveTimer?.update(dt);
     // If player is not alive - [GAME OVER]
