@@ -11,6 +11,34 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsAudioGen {
+  const $AssetsAudioGen();
+
+  /// File path: assets/audio/laser.wav
+  String get laser => 'assets/audio/laser.wav';
+
+  /// File path: assets/audio/missile_flyby.wav
+  String get missileFlyby => 'assets/audio/missile_flyby.wav';
+
+  /// File path: assets/audio/missile_hit.wav
+  String get missileHit => 'assets/audio/missile_hit.wav';
+
+  /// File path: assets/audio/missile_shot.wav
+  String get missileShot => 'assets/audio/missile_shot.wav';
+
+  /// File path: assets/audio/race_to_mars.mp3
+  String get raceToMars => 'assets/audio/race_to_mars.mp3';
+
+  /// List of all assets
+  List<String> get values => [
+    laser,
+    missileFlyby,
+    missileHit,
+    missileShot,
+    raceToMars,
+  ];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -25,6 +53,7 @@ class $AssetsImagesGen {
 class Assets {
   const Assets._();
 
+  static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
@@ -95,15 +124,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

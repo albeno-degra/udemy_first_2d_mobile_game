@@ -1,18 +1,31 @@
 import 'package:first_2d_mobile_game/asteroids_game.dart';
+import 'package:first_2d_mobile_game/gen/assets.gen.dart';
 import 'package:first_2d_mobile_game/mixins/scene_changer.dart';
 import 'package:first_2d_mobile_game/widgets/game_over.dart';
 import 'package:first_2d_mobile_game/widgets/score.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final asteroidsGame = AsteroidsGame();
 
   Flame.device.fullScreen();
   Flame.images.prefix = '';
+  FlameAudio.audioCache.prefix = '';
+
+  await FlameAudio.audioCache.loadAll([
+    Assets.audio.raceToMars,
+    Assets.audio.laser,
+    Assets.audio.missileFlyby,
+    Assets.audio.missileHit,
+    Assets.audio.missileShot,
+  ]);
+
+  final asteroidsGame = AsteroidsGame();
+
+  FlameAudio.loop(Assets.audio.raceToMars);
 
   runApp(
     MaterialApp(

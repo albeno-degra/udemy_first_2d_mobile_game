@@ -1,11 +1,12 @@
 import 'package:first_2d_mobile_game/asteroids_game.dart';
 import 'package:first_2d_mobile_game/components/bullet.dart';
-import 'package:first_2d_mobile_game/components/ship_player.dart';
+import 'package:first_2d_mobile_game/gen/assets.gen.dart';
 import 'package:first_2d_mobile_game/mixins/rotation.dart';
 import 'package:first_2d_mobile_game/utils/angles_utils.dart';
 import 'package:first_2d_mobile_game/utils/random.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 class AsteroidParams {
@@ -48,7 +49,8 @@ enum AsteroidSize {
   }
 }
 
-class Asteroid extends PolygonComponent with Rotation, CollisionCallbacks {
+class Asteroid extends PolygonComponent
+    with Rotation, CollisionCallbacks, HasGameReference {
   Asteroid({
     required List<Vector2> vertices,
     AsteroidSize? asteroidSize,
@@ -83,7 +85,7 @@ class Asteroid extends PolygonComponent with Rotation, CollisionCallbacks {
     super.onLoad();
     // Set anchor, position, _velocity and paint
     anchor = Anchor.center;
-    final bounds = (parent as AsteroidsGame).bounds;
+    final bounds = (game as AsteroidsGame).bounds;
     position = getRandomPosition(
       bounds: bounds,
       parentPosition: _parentPosition,
@@ -117,25 +119,27 @@ class Asteroid extends PolygonComponent with Rotation, CollisionCallbacks {
       return;
     }
     // Get player entity
-    final shipPlayer = parent?.children.whereType<ShipPlayer>().first;
+    final shipPlayer = (game as AsteroidsGame).player;
 
     if (other is Bullet) {
       // Remove bullet
       other.removeFromParent();
+      FlameAudio.play(Assets.audio.missileHit);
+
       switch (_asteroidSize) {
         case AsteroidSize.small:
-          shipPlayer?.addScore(50);
+          shipPlayer.addScore(50);
           removeFromParent();
           break;
         case AsteroidSize.medium:
-          shipPlayer?.addScore(25);
+          shipPlayer.addScore(25);
           parent?.addAll(
             _generateRandomAsteroids(count: 3, size: AsteroidSize.small),
           );
           removeFromParent();
           break;
         case AsteroidSize.large:
-          shipPlayer?.addScore(10);
+          shipPlayer.addScore(10);
           parent?.addAll(
             _generateRandomAsteroids(count: 2, size: AsteroidSize.medium),
           );

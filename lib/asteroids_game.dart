@@ -1,11 +1,13 @@
 import 'package:first_2d_mobile_game/components/asteroid.dart';
 import 'package:first_2d_mobile_game/components/bullet.dart';
 import 'package:first_2d_mobile_game/components/ship_player.dart';
+import 'package:first_2d_mobile_game/gen/assets.gen.dart';
 import 'package:first_2d_mobile_game/mixins/scene_changer.dart';
 import 'package:first_2d_mobile_game/utils/random.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 class AsteroidsGame extends FlameGame
@@ -39,6 +41,7 @@ class AsteroidsGame extends FlameGame
   // Public method creates a new game
   void startNewGame() {
     player.restore();
+    isGameOver = false;
     toRunningScene();
   }
 
@@ -84,7 +87,7 @@ class AsteroidsGame extends FlameGame
     velocity.rotate(player.angle);
 
     // Add Bullet
-    add(Bullet(player.position, velocity));
+    _addBullet(velocity);
     super.onTapDown(event);
   }
 
@@ -105,7 +108,7 @@ class AsteroidsGame extends FlameGame
     _bulletTimer ??= Timer(
       0.2,
       onTick: () {
-        add(Bullet(player.position, _bulletVelocity));
+        _addBullet(_bulletVelocity);
       },
       repeat: true,
     )..start();
@@ -133,6 +136,11 @@ class AsteroidsGame extends FlameGame
     _playerMoveTimer?.stop();
     _playerMoveTimer = null;
     super.onLongPressEnd(info);
+  }
+
+  void _addBullet(Vector2 velocity) {
+    FlameAudio.play(Assets.audio.laser);
+    add(Bullet(player.position, velocity));
   }
 
   void _addRandomAsteroid() => add(
